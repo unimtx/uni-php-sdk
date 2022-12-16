@@ -1,0 +1,36 @@
+{
+    "name": "unimtx/uni-sdk",
+    "description": "The official Unimatrix SDK for PHP.",
+    "keywords": ["unimatrix", "sms", "messaging", "2fa", "verification", "sdk", "api"],
+    "type": "library",
+    "homepage": "https://unimtx.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Unimatrix",
+            "email": "dev@unimtx.com",
+            "homepage": "https://github.com/unimtx",
+            "role": "Developer"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/unimtx/uni-php-sdk"
+        }
+    ],
+    "support": {
+        "email": "support@unimtx.com",
+        "docs": "https://www.unimtx.com/docs"
+    },
+    "require": {
+        "php": ">=7.0",
+        "ext-curl": "*"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Uni\\": "./src/"
+        }
+    }
+}
