@@ -9,7 +9,7 @@ use Uni\Services\OtpService;
 
 class UniClient {
   const NAME = 'uni-php-sdk';
-  const VERSION = '0.2.0';
+  const VERSION = '0.3.0';
   const DEFAULT_ENDPOINT = 'https://api.unimtx.com';
   const DEFAULT_SIGNING_ALGORITHM = 'hmac-sha256';
   const USER_AGENT = self::NAME . '/' . self::VERSION;
