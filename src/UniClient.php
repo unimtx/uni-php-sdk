@@ -5,6 +5,7 @@ namespace Uni;
 use Uni\UniResponse;
 use Uni\UniException;
 use Uni\Services\MessageService;
+use Uni\Services\OtpService;
 
 class UniClient {
   const NAME = 'uni-php-sdk';
@@ -15,19 +16,20 @@ class UniClient {
   const TIMEOUT = 60;
 
   public $endpoint;
-  public $accessKeyId;
   public $signingAlgorithm;
   public $hmacAlgorithm;
 
-  protected $_message;
-
+  private $accessKeyId;
   private $accessKeySecret;
   private $sslVerify;
 
-  function __construct($config) {
-    $this->endpoint = $config['endpoint'] ?? self::DEFAULT_ENDPOINT;
-    $this->accessKeyId = $config['accessKeyId'];
-    $this->accessKeySecret = $config['accessKeySecret'] ?? null;
+  protected $_message;
+  protected $_otp;
+
+  function __construct($config = []) {
+    $this->endpoint = $this->getArg($config['endpoint'], 'UNIMTX_ENDPOINT') ?? self::DEFAULT_ENDPOINT;
+    $this->accessKeyId = $this->getArg($config['accessKeyId'], 'UNIMTX_ACCESS_KEY_ID');
+    $this->accessKeySecret = $this->getArg($config['accessKeySecret'], 'UNIMTX_ACCESS_KEY_SECRET');
     $this->signingAlgorithm = $config['signingAlgorithm'] ?? self::DEFAULT_SIGNING_ALGORITHM;
     $this->hmacAlgorithm = explode('-', $this->signingAlgorithm)[1];
     $this->sslVerify = $config['sslVerify'] ?? true;
@@ -39,6 +41,22 @@ class UniClient {
         return $this->$method();
     }
     throw new UniException('Unknown service ' . $name, -1);
+  }
+
+  private function getArg($arg, $envName = '') {
+    if ($arg) {
+      return $arg;
+    }
+
+    if ($envName) {
+      $val = getenv($envName);
+
+      if ($val) {
+        return $val;
+      }
+    }
+
+    return null;
   }
 
   private function sign($query) {
@@ -110,5 +128,12 @@ class UniClient {
           $this->_message = new MessageService($this);
       }
       return $this->_message;
+  }
+
+  protected function getOtp() {
+      if (!$this->_otp) {
+          $this->_otp = new OtpService($this);
+      }
+      return $this->_otp;
   }
 }

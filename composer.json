@@ -1,7 +1,7 @@
 {
     "name": "unimtx/uni-sdk",
     "description": "The official Unimatrix SDK for PHP.",
-    "keywords": ["unimatrix", "sms", "messaging", "2fa", "verification", "sdk", "api"],
+    "keywords": ["unimatrix", "unisdk", "sms", "messaging", "2fa", "otp", "verification", "sdk", "api"],
     "type": "library",
     "homepage": "https://unimtx.com",
     "license": "MIT",

@@ -26,12 +26,9 @@ composer require unimtx/uni-sdk
 
 The following example shows how to use the Unimatrix PHP SDK to interact with Unimatrix services.
 
-### Send SMS
-
-Send a text message to a single recipient.
+### Initialize a client
 
 ```php
-
 use Uni\UniClient;
 use Uni\UniException;
 
@@ -39,18 +36,75 @@ $client = new UniClient([
   'accessKeyId' => 'your access key id',
   'accessKeySecret' => 'your access key secret'
 ]);
+```
+
+or you can configure your credentials by environment variables:
+
+```sh
+export UNIMTX_ACCESS_KEY_ID=your_access_key_id
+export UNIMTX_ACCESS_KEY_SECRET=your_access_key_secret
+```
+
+### Send SMS
+
+Send a text message to a single recipient.
+
+```php
+use Uni\UniClient;
+use Uni\UniException;
+
+$client = new UniClient();
 
 try {
   $resp = $client->messages->send([
-    'to' => 'your phone number', // in E.164 format
-    'signature' => 'your sender name',
-    'content' => 'Your verification code is 2048.'
+    'to' => '+1206880xxxx', // in E.164 format
+    'text' => 'Your verification code is 2048.'
   ]);
   var_dump($resp->data);
 } catch (UniException $e) {
   print_r($e);
 }
+```
 
+### Send verification code
+
+Send a one-time passcode (OTP) to a recipient. The following example will automatically generate a verification code.
+
+```php
+use Uni\UniClient;
+use Uni\UniException;
+
+$client = new UniClient();
+
+try {
+  $resp = $client->otp->send([
+    'to' => '+1206880xxxx'
+  ]);
+  var_dump($resp->data);
+} catch (UniException $e) {
+  print_r($e);
+}
+```
+
+### Check verification code
+
+Verify the one-time passcode (OTP) that a user provided. The following example will check whether the user-provided verification code is correct.
+
+```php
+use Uni\UniClient;
+use Uni\UniException;
+
+$client = new UniClient();
+
+try {
+  $resp = $client->otp->verify([
+    'to' => '+1206880xxxx',
+    'code' => '123456' // the code user provided
+  ]);
+  var_dump($resp->valid);
+} catch (UniException $e) {
+  print_r($e);
+}
 ```
 
 ## Reference

@@ -5,6 +5,8 @@ namespace Uni\Services;
 use Uni\UniClient;
 
 class MessageService {
+  private $client;
+
   function __construct(UniClient $client) {
     $this->client = $client;
   }

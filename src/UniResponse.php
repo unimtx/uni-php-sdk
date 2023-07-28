@@ -12,6 +12,7 @@ class UniResponse {
   public $data;
   public $raw;
   public $requestId;
+  public $valid;
 
   function __construct($resp) {
     list($raw_headers, $raw_body) = explode("\r\n\r\n", $resp, 2);
@@ -37,14 +38,17 @@ class UniResponse {
       $h = explode(':', $h, 2);
 
       if (isset($h[1])) {
-        if(!isset($headers[$h[0]])) {
-          $headers[$h[0]] = trim($h[1]);
-        } else if(is_array($headers[$h[0]])) {
-          $tmp = array_merge($headers[$h[0]],array(trim($h[1])));
-          $headers[$h[0]] = $tmp;
+        $k = strtolower($h[0]);
+        $v = $h[1];
+
+        if(!isset($headers[$k])) {
+          $headers[$k] = trim($v);
+        } else if(is_array($headers[$k])) {
+          $tmp = array_merge($headers[$k],array(trim($v)));
+          $headers[$k] = $tmp;
         } else {
-          $tmp = array_merge(array($headers[$h[0]]),array(trim($h[1])));
-          $headers[$h[0]] = $tmp;
+          $tmp = array_merge(array($headers[$k]),array(trim($v)));
+          $headers[$k] = $tmp;
         }
       }
     }
