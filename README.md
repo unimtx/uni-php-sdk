@@ -30,7 +30,6 @@ The following example shows how to use the Unimatrix PHP SDK to interact with Un
 
 ```php
 use Uni\UniClient;
-use Uni\UniException;
 
 $client = new UniClient([
   'accessKeyId' => 'your access key id',
@@ -68,7 +67,7 @@ try {
 
 ### Send verification code
 
-Send a one-time passcode (OTP) to a recipient. The following example will automatically generate a verification code.
+Send a one-time passcode (OTP) to a recipient. The following example will send a automatically generated verification code to the user.
 
 ```php
 use Uni\UniClient;
@@ -76,14 +75,10 @@ use Uni\UniException;
 
 $client = new UniClient();
 
-try {
-  $resp = $client->otp->send([
-    'to' => '+1206880xxxx'
-  ]);
-  var_dump($resp->data);
-} catch (UniException $e) {
-  print_r($e);
-}
+$resp = $client->otp->send([
+  'to' => '+1206880xxxx'
+]);
+var_dump($resp->data);
 ```
 
 ### Check verification code
@@ -96,15 +91,11 @@ use Uni\UniException;
 
 $client = new UniClient();
 
-try {
-  $resp = $client->otp->verify([
-    'to' => '+1206880xxxx',
-    'code' => '123456' // the code user provided
-  ]);
-  var_dump($resp->valid);
-} catch (UniException $e) {
-  print_r($e);
-}
+$resp = $client->otp->verify([
+  'to' => '+1206880xxxx',
+  'code' => '123456' // the code user provided
+]);
+var_dump($resp->valid);
 ```
 
 ## Reference
